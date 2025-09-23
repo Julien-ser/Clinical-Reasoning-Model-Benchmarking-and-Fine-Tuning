@@ -1,0 +1,11 @@
+Model_Prompt,Average Accuracy,Category,Sample Count
+0.6B_cot,0.08131826124945392,Overall,1047
+0.6B_few_shot,0.09024683267802534,Overall,1047
+0.6B_rag,0.166759501965924,Overall,1047
+0.6B_zero_shot,0.0609217999126256,Overall,1047
+0.6B_zero_shot_quantized_lora,0.010397553516819572,Overall,1047
+1.7B_cot,0.13787134119702926,Overall,1047
+1.7B_few_shot,0.10608890345128877,Overall,1047
+1.7B_rag,0.17589012669287898,Overall,1047
+1.7B_zero_shot,0.12335080821319354,Overall,1047
+1.7B_zero_shot_quantized_lora,0.04536369593709043,Overall,1047
