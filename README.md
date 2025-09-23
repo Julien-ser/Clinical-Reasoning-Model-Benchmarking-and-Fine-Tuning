@@ -85,4 +85,12 @@ plt.show()
 ```
 
 ### Citation
-If you use this repository, please cite the Qwen3 models and MedCalc-Bench dataset accordingly.
+Qwen3 Models
+Yang, A., Liu, Y., Guo, Z., et al. “Qwen3: Technical Report.” arXiv preprint arXiv:2505.09388, 2025.
+Cite as:
+Yang, A., Liu, Y., Guo, Z., et al. Qwen3: Technical Report. arXiv:2505.09388 [cs.CL], 2025.
+
+MedCalc-Bench Dataset
+Khandekar, N., Jin, Q., Xiong, G., Dunn, S., Applebaum, S., et al. “MedCalc-Bench: Evaluating Large Language Models for Medical Calculations.” arXiv preprint arXiv:2406.12036, 2024.
+Cite as:
+Khandekar, N., Jin, Q., Xiong, G., et al. MedCalc-Bench: Evaluating Large Language Models for Medical Calculations. arXiv:2406.12036 [cs.CL], 2024.
