@@ -68,13 +68,6 @@ A compact preview of `pivot_results.csv` included here for quick inspection (val
 
 Note: These are sample values from the provided CSV; your results may vary with different seeds, hardware, or dependency versions.
 
-### Visualization
-You can load `pivot_results.csv` in Python to create concise plots:
-```python
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-
 pivot = pd.read_csv("pivot_results.csv")
 long = pivot.melt(id_vars=["Model_Prompt"], var_name="category", value_name="accuracy")
 plt.figure(figsize=(10,5))
@@ -82,7 +75,24 @@ sns.barplot(data=long[long["category"]!="Overall"], x="category", y="accuracy", 
 plt.xticks(rotation=45, ha="right")
 plt.tight_layout()
 plt.show()
-```
+
+### Results Visualization
+
+Below are visualizations generated from the evaluation CSVs. These provide a quick overview of model and prompt performance:
+
+#### Overall Accuracy by Model and Prompt
+![Overall Accuracy](images/overall_accuracy.png)
+
+#### Per-Category Accuracy Heatmap
+![Category Accuracy Heatmap](images/category_accuracy_heatmap.png)
+
+#### CSV Results
+- [`pivot_results.csv`](pivot_results.csv): Category-wise accuracy by Model+Prompt
+- [`overall_results.csv`](overall_results.csv): Overall accuracy summary
+- [`aggregated_results.csv`](aggregated_results.csv): Row-wise predictions with parsed answers and in-range flags
+- [`summary_statistics.csv`](summary_statistics.csv): Descriptive stats used in the write-up
+
+For custom analysis or plotting, you can load these CSVs in Python or your preferred tool.
 
 ### Citation
 Qwen3 Models
