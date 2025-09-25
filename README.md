@@ -18,7 +18,7 @@ This repository benchmarks and fine-tunes Qwen3 models on MedCalc-Bench clinical
 Quick setup via the notebook (Colab/local):
 ```bash
 pip install --upgrade pip
-pip install "transformers>=4.43.0" accelerate peft bitsandbytes datasets evaluate scikit-learn seaborn matplotlib pandas numpy einops xformers
+pip install "transformers>=4.43.0" accelerate peft bitsandbytes datasets evaluate scikit-learn seaborn matplotlib pandas numpy einops xformers sentence-transformers tqdm
 ```
 If you encounter CUDA/driver issues with `bitsandbytes`, you can skip it and load models in full precision at a memory cost.
 
