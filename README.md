@@ -22,35 +22,54 @@ pip install "transformers>=4.43.0" accelerate peft bitsandbytes datasets evaluat
 ```
 If you encounter CUDA/driver issues with `bitsandbytes`, you can skip it and load models in full precision at a memory cost.
 
-### Running the Notebook
-1. Open `Clinical_Reasoning_Benchmarks.ipynb`.
-2. Run the setup cell to install dependencies.
-3. Execute the data loading cell (dataset is pulled from the Hugging Face Hub).
-4. Execute model loading and quick sanity generations (optional).
+### Running the Notebook (Colab or Local)
+
+**Recommended: Google Colab (T4 GPU, Free Tier or Pro)**
+
+1. Open `Clinical_Reasoning_Benchmarks.ipynb` in Google Colab (right-click in GitHub or upload to Colab).
+2. Run the first cell to install necessary dependencies
+3. Run the data loading cell (dataset is pulled from the Hugging Face Hub).
+4. Run the model loading cell and optionally the quick sanity generation cell.
 5. Run the batched inference cell to generate outputs for:
    - Models: Qwen3-0.6B, Qwen3-1.7B
    - Prompts: zero-shot, few-shot, CoT (and optional RAG variants if you enable them)
-6. Aggregation cells will compute accuracy, produce pivot tables, and write artifacts to `outputs/` and project root.
+6. Run the aggregation cell to compute accuracy, produce pivot tables, and write artifacts to `outputs/` and the project root.
+7. Run the visualization cell to generate and save PNGs for barplots, heatmaps, and radar charts.
 
-Outputs will appear under `outputs/` as CSVs, and summary CSVs (`pivot_results.csv`, `overall_results.csv`, etc.) will be written at the repo root unless you change the paths.
+**Colab/VRAM Tips:**
+- If you encounter out-of-memory (OOM) errors, reduce `BATCH_SIZE` in the notebook (e.g., set `BATCH_SIZE = 2` or even `1`).
+- You can also reduce `N_FEW_SHOT` to fit more easily in memory.
+- T4 GPUs (Colab Free) can run both models, but 1.7B may require smaller batch sizes.
+- If you want to rerun a combination, delete the corresponding CSVs in `outputs/`.
 
-### Reproducibility Notes
-- Tokenization uses left-padding and left-truncation for decoder-only models to enable batching while preserving the most recent context.
-- Generation parameters default to low variance for numeric/date extraction: `temperature=0.3`, `top_p=0.9`, and conservative `max_new_tokens`.
-- CoT uses a larger `max_new_tokens` to allow brief reasoning while evaluation relies only on the extracted `Answer:` line.
+**Outputs:**
+- CSVs will appear under `outputs/`.
+- Summary CSVs (`pivot_results.csv`, `overall_results.csv`, etc.) will be written at the repo root unless you change the paths.
 
-### Regenerating Results
-- Delete the corresponding CSVs in `outputs/` if you want to rerun a combination (the notebook skips files that already exist).
-- Tweak `BATCH_SIZE` and `N_FEW_SHOT` depending on GPU VRAM and context length.
-- For full reproducibility, pin package versions in a `requirements.txt` and export a precise CUDA/driver configuration.
+**Local Run:**
+- All steps are also runnable locally with a suitable GPU and Python 3.10+ environment.
+- For best results, use a recent NVIDIA GPU (T4/A10/RTX). CPU is supported but much slower.
 
-### File Descriptions
-- `outputs/*_improved.csv`: Row-level generations with raw outputs, extracted answers, parsed types, and `in_range` correctness.
-- `pivot_results.csv`: Category-wise accuracy by Model+Prompt, ready for plotting and comparison.
-- `overall_results.csv`: Overall mean accuracy per Model+Prompt.
-- `aggregated_results.csv`: Combined long-form results across runs for further analysis.
+### Results Visualization
 
-### Inline Preview: pivot_results.csv
+Below are visualizations generated from the evaluation CSVs. These provide a quick overview of model and prompt performance:
+
+#### Overall Accuracy by Model and Prompt
+![Overall Accuracy](images/overall_accuracy.png)
+
+#### Per-Category Accuracy Heatmap
+![Category Accuracy Heatmap](images/category_accuracy_heatmap.png)
+
+#### Radar Charts by Model
+Each radar chart shows per-category accuracy for all prompt types within a model.
+
+**Qwen3-0.6B:**
+![Radar 0.6B](images/radar_0_6B.png)
+
+**Qwen3-1.7B:**
+![Radar 1.7B](images/radar_1_7B.png)
+
+#### Final Results Table
 A compact preview of `pivot_results.csv` included here for quick inspection (values are accuracies in [0,1]):
 
 | Model_Prompt | Overall | date | diagnosis | dosage | lab | physical | risk | severity |
@@ -65,26 +84,6 @@ A compact preview of `pivot_results.csv` included here for quick inspection (val
 | 1.7B_rag | 0.1759 | 0.0333 | 0.2833 | 0.0750 | 0.1437 | 0.4625 | 0.1083 | 0.1250 |
 | 1.7B_zero_shot | 0.1234 | 0.0000 | 0.2333 | 0.0750 | 0.1468 | 0.1583 | 0.1000 | 0.1500 |
 | 1.7B_zero_shot_quantized_lora | 0.0454 | 0.0000 | 0.0667 | 0.0000 | 0.0550 | 0.0792 | 0.0792 | 0.0375 |
-
-Note: These are sample values from the provided CSV; your results may vary with different seeds, hardware, or dependency versions.
-
-pivot = pd.read_csv("pivot_results.csv")
-long = pivot.melt(id_vars=["Model_Prompt"], var_name="category", value_name="accuracy")
-plt.figure(figsize=(10,5))
-sns.barplot(data=long[long["category"]!="Overall"], x="category", y="accuracy", hue="Model_Prompt")
-plt.xticks(rotation=45, ha="right")
-plt.tight_layout()
-plt.show()
-
-### Results Visualization
-
-Below are visualizations generated from the evaluation CSVs. These provide a quick overview of model and prompt performance:
-
-#### Overall Accuracy by Model and Prompt
-![Overall Accuracy](images/overall_accuracy.png)
-
-#### Per-Category Accuracy Heatmap
-![Category Accuracy Heatmap](images/category_accuracy_heatmap.png)
 
 #### CSV Results
 - [`pivot_results.csv`](pivot_results.csv): Category-wise accuracy by Model+Prompt

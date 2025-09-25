@@ -25,9 +25,10 @@
   "rank_pattern": {},
   "revision": null,
   "target_modules": [
+    "w1",
+    "w2",
     "o_proj",
-    "v_proj",
-    "q_proj"
+    "c_attn"
   ],
   "target_parameters": null,
   "task_type": "CAUSAL_LM",
