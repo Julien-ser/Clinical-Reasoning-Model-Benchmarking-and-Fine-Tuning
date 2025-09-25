@@ -64,10 +64,10 @@ Below are visualizations generated from the evaluation CSVs. These provide a qui
 Each radar chart shows per-category accuracy for all prompt types within a model.
 
 **Qwen3-0.6B:**
-![Radar 0.6B](images/radar_0_6B.png)
+![Radar 0.6B](images/category_accuracy_radar_0.6B.png)
 
 **Qwen3-1.7B:**
-![Radar 1.7B](images/radar_1_7B.png)
+![Radar 1.7B](images/category_accuracy_radar_1.7B.png)
 
 #### Final Results Table
 A compact preview of `pivot_results.csv` included here for quick inspection (values are accuracies in [0,1]):
